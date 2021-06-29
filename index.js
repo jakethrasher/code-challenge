@@ -1,4 +1,3 @@
-
 module.exports = {
   sum: function (...args){
     return args.reduce((acc, value)=>{
@@ -50,13 +49,29 @@ module.exports = {
     const arr = path.split('.')
   
     for(let i = 0; i < arr.length; i++){
-      //if its not the last item 
+      //if its not the last item  
       if(i !== arr.length-1) obj = obj[arr[i]];
       else obj[arr[i]] = val;
     }
     return obj
   },
-
+ 
+  Car: class{
+    constructor({initialFuelLevel,fuelCapacity}){
+      this.fuelLevel = initialFuelLevel;
+      this.fuelCapacity = fuelCapacity;
+    }
+    
+    getFuelLevel(){
+      return this.fuelLevel
+    }
+    addFuel(amount){
+      const diff = this.fuelCapacity - this.fuelLevel;
+      if(amount <= diff) this.fuelLevel += amount;
+      else this.fuelLevel = this.fuelCapacity; 
+    }
+  },
+  
   exampleFunction: function(message) { return message; },
 }
 
