@@ -49,7 +49,6 @@ module.exports = {
     const arr = path.split('.')
   
     for(let i = 0; i < arr.length; i++){
-      //if its not the last item  
       if(i !== arr.length-1) obj = obj[arr[i]];
       else obj[arr[i]] = val;
     }
@@ -71,6 +70,7 @@ module.exports = {
       else this.fuelLevel = this.fuelCapacity; 
     }
   },
+
   whatWouldYouLikeToCheckOut: async function(library){
     const favs = await library.favoriteAuthors();
     const requests = favs.map((fav) => library.booksAvailableBy(fav));
@@ -84,6 +84,12 @@ module.exports = {
     }
     return titles;
   },
+
+  calc: x => op => z =>{
+    if(op === '+') return x + z;
+    if(op === '-') return x - z;
+  },  
+
   exampleFunction: function(message) { return message; },
 }
 
