@@ -71,7 +71,19 @@ module.exports = {
       else this.fuelLevel = this.fuelCapacity; 
     }
   },
-  
+  whatWouldYouLikeToCheckOut: async function(library){
+    const favs = await library.favoriteAuthors();
+    const requests = favs.map((fav) => library.booksAvailableBy(fav));
+
+    const titles = []
+    const books = await Promise.all(requests);
+    for(let book of books){
+      if(book.length){
+        titles.push(book[0].title)
+      }
+    }
+    return titles;
+  },
   exampleFunction: function(message) { return message; },
 }
 
