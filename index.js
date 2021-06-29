@@ -46,8 +46,15 @@ module.exports = {
     }
   },
 
-  updateAtPath:function(root, path, newVal){
-   
+  updateAtPath:function(obj, path, val){
+    const arr = path.split('.')
+  
+    for(let i = 0; i < arr.length; i++){
+      //if its not the last item 
+      if(i !== arr.length-1) obj = obj[arr[i]];
+      else obj[arr[i]] = val;
+    }
+    return obj
   },
 
   exampleFunction: function(message) { return message; },
