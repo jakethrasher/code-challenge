@@ -1,96 +1,86 @@
-module.exports = {
-  sum: function (...args){
-    return args.reduce((acc, value)=>{
-      acc+= value;
-      return acc;
-    }, 0)
-  },
-
-  vowelize: function(arr){
-    let newArray = [];
-    let vowels = /[AEIOUaeiou]/g
-    arr.forEach(str=>{
-      const match = str.match(vowels);
-      if(match) newArray.push(match.join(''));
-      else return match;
+function exampleFunction(msg){
+    return msg;
+};
+function sum(...args){
+    return args.reduce((acc,val)=>{
+        acc += val;
+        return acc
+    },0)
+};
+function vowelize(arr){
+    const vowels = /[aeiou]/g;
+    let results = []
+    arr.forEach(el=>{
+        el.match(vowels) ? 
+        results.push(el.match(vowels).join('')) : null
     })
-    return newArray;
-  },
-
-  combineAndSort: function(...args){
-    return args.flat().sort()
-  },
-
-  anagramTester:function(str1, str2){
-    const newString1 = str1.split(' ').join('').toLowerCase();
-    const newString2 = str2.split(' ').join('').toLowerCase();
-
+    return results
+};
+function combineAndSort(arr1,arr2){
+    return [...arr1,...arr2].sort();
+};
+function anagramTester(str1,str2){
     let sum1 = 0;
     let sum2 = 0;
-    for(let i = 0; i < newString1.length; i++){
-      sum1 += newString1.charCodeAt(i)
-    };
-    for(let i = 0; i < newString2.length; i++){
-      sum2 += newString2.charCodeAt(i)
-    };
-    
-    if(sum1 === sum2) return true;
-
-    return false
-  },
-
-  objectForEach: function(obj, cb){
-    for(let key in obj){
-      cb(obj[key])
+    for(let i = 0; i < str1.length; i ++){
+        sum1 += str1[i].toLowerCase().charCodeAt(str1[i])
     }
-  },
+    for(let i = 0; i < str2.length; i ++){
+        sum2 += str2[i].toLowerCase().charCodeAt(str2[i])
+    }
+    return sum1 === sum2 ? true : false;
+};
+function objectForEach(obj,cb){ 
+    for(let key in obj) cb(obj[key])
+};
+function updateAtPath(obj, path, val){
+    const pathArr = path.split('.');
+    for(let i = 0; i < pathArr.length; i++){
+        if(i !== pathArr.length -1){
+            obj = obj[pathArr[i]]
+        }else obj[pathArr[i]] = val;
+    }
+};
+class Car {
 
-  updateAtPath:function(obj, path, val){
-    const arr = path.split('.')
-  
-    for(let i = 0; i < arr.length; i++){
-      if(i !== arr.length-1) obj = obj[arr[i]];
-      else obj[arr[i]] = val;
+    constructor(obj){
+        this.fuelLevel= obj.initialFuelLevel;
+        this.fuelCapacity = obj.fuelCapacity;
     }
-    return obj
-  },
- 
-  Car: class{
-    constructor({initialFuelLevel,fuelCapacity}){
-      this.fuelLevel = initialFuelLevel;
-      this.fuelCapacity = fuelCapacity;
-    }
-    
     getFuelLevel(){
-      return this.fuelLevel
+        return this.fuelLevel
     }
-    addFuel(amount){
-      const diff = this.fuelCapacity - this.fuelLevel;
-      if(amount <= diff) this.fuelLevel += amount;
-      else this.fuelLevel = this.fuelCapacity; 
+    addFuel(fuel){
+        fuel + this.fuelLevel <= this.fuelCapacity ?
+        this.fuelLevel += fuel :
+        this.fuelLevel = this.fuelCapacity;
     }
-  },
-
-  whatWouldYouLikeToCheckOut: async function(library){
-    const favs = await library.favoriteAuthors();
-    const requests = favs.map((fav) => library.booksAvailableBy(fav));
-
-    const titles = []
-    const books = await Promise.all(requests);
+};
+async function whatWouldYouLikeToCheckOut(library){
+    const authors = await library.favoriteAuthors();
+    let bookTitles= [];
+    const books = await Promise.all(
+        authors.map(x=>library.booksAvailableBy(x)
+    ));
     for(let book of books){
-      if(book.length){
-        titles.push(book[0].title)
-      }
+        if(book.length) bookTitles.push(book[0].title)
     }
-    return titles;
-  },
-
-  calc: x => op => z =>{
-    if(op === '+') return x + z;
-    if(op === '-') return x - z;
-  },  
-
-  exampleFunction: function(message) { return message; },
+    return bookTitles;
+};
+const calc = x => y => z=> {
+    if(y === '+') return x + z;
+    if(y === '-') return x - z;
 }
 
-
+module.exports = {
+    exampleFunction,
+    sum,
+    vowelize,
+    combineAndSort,
+    anagramTester,
+    objectForEach,
+    updateAtPath,
+    Car,
+    whatWouldYouLikeToCheckOut,
+    calc
+};
