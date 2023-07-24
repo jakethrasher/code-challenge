@@ -33,13 +33,14 @@ function anagramTester(str1,str2){
 function objectForEach(obj,cb){ 
     for(let key in obj) cb(obj[key])
 };
-function updateAtPath(obj, path, val){
-    const pathArr = path.split('.');
-    for(let i = 0; i < pathArr.length; i++){
-        if(i !== pathArr.length -1){
-            obj = obj[pathArr[i]]
-        }else obj[pathArr[i]] = val;
+
+function updateAtPath(root, path, val){
+    if(!path.includes('.')){
+        return root[path] = val;
     }
+    const [first, ...rest] = path.split('.'); // 'student123.gpa.inMajor'
+    const newPath = rest.join('.')
+    return updateAtPath(root[first], newPath, val)
 };
 class Car {
 
